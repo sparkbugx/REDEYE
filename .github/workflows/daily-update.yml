@@ -1,0 +1,84 @@
+name: Daily vulnerability notes update
+
+on:
+  schedule:
+    # 04:40 UTC every day. That is 22:40 CST (23:40 CDT), late enough to catch the day's advisories.
+    - cron: '40 4 * * *'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Start of the window, YYYY-MM-DD (empty: from the newest note on file)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Show what would be added without committing anything'
+        type: boolean
+        default: false
+
+# Nothing may write to the repository unless a job asks for it below.
+permissions:
+  contents: read
+
+# Never run two updates at once: both would push to main.
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write # needed to push the commit, and nothing more
+    env:
+      # The script dates notes in the machine's time zone. Runners default to UTC,
+      # so set the zone the site's readers are in.
+      TZ: America/Chicago
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update the notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # raises the advisory API limit; read-only use
+          SINCE: ${{ inputs.since }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=()
+          if [[ -n "$SINCE" ]]; then
+            if [[ ! "$SINCE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+              echo "::error::'since' must look like 2026-11-10"
+              exit 1
+            fi
+            args+=("--since=$SINCE")
+          fi
+          if [[ "$DRY_RUN" == "true" ]]; then args+=(--dry-run); fi
+
+          status=0
+          node scripts/update-notes.js "${args[@]}" || status=$?
+          # Exit code 2 means a source was unreachable. What the other sources gave is
+          # still valid, and the next run covers the gap, so warn instead of failing.
+          if [[ $status -eq 2 ]]; then
+            echo "::warning::One or more sources could not be reached. See the summary above."
+          elif [[ $status -ne 0 ]]; then
+            exit "$status"
+          fi
+
+      - name: Check that the site still builds
+        run: npm run build
+
+      - name: Commit and push the update
+        if: ${{ inputs.dry_run != true }}
+        uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7.2.1
+        with:
+          commit_message: 'chore(notes): daily vulnerability update'
+          file_pattern: 'src/app/data/starter-notes.ts scripts/update-notes-state.json SOURCES.md'

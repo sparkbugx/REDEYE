@@ -5,7 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "update-notes": "node scripts/update-notes.js"
   },
   "dependencies": {
     "@angular/common": "^20.0.0",
