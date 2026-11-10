@@ -1,0 +1,111 @@
+<div class="shell">
+  <app-cover
+    [today]="today()"
+    [criticalToday]="criticalToday()"
+    [highToday]="highToday()"
+    [total]="notes.ranked().length"
+  />
+
+  <main class="feed">
+    <div class="feed-inner">
+      <header class="masthead">
+        <span class="strip">Today {{ today() }} · {{ criticalToday() }} critical · {{ highToday() }} high</span>
+        <h1>Vulnerability notes, ranked by priority</h1>
+        <p class="lede">
+          Short write-ups of advisories first published by Ubuntu Security, Google and the npm registry: what broke,
+          who is exposed, and what to install. Critical comes first, newest on top.
+        </p>
+      </header>
+
+      <div class="controls">
+        <div class="chips" role="group" aria-label="Filter by severity">
+          @for (chip of chips(); track chip.key) {
+            <button
+              type="button"
+              class="chip"
+              [class.today]="chip.key === 'today'"
+              [attr.aria-pressed]="level() === chip.key"
+              (click)="level.set(chip.key)"
+            >
+              {{ chip.label }}<i>{{ chip.count }}</i>
+            </button>
+          }
+        </div>
+        <div class="sortbox">
+          <span>Sort</span>
+          <div class="chips" role="group" aria-label="Sort order">
+            @for (mode of sortModes; track mode.key) {
+              <button
+                type="button"
+                class="chip"
+                [attr.aria-pressed]="sort() === mode.key"
+                (click)="sort.set(mode.key)"
+              >
+                {{ mode.label }}
+              </button>
+            }
+          </div>
+        </div>
+        <input
+          class="search"
+          id="q"
+          type="search"
+          placeholder="Search CVE, package, keyword"
+          aria-label="Search notes"
+          [value]="query()"
+          (input)="query.set($any($event.target).value)"
+        />
+        <button class="btn" type="button" [attr.aria-expanded]="formOpen()" (click)="formOpen.set(!formOpen())">
+          {{ formOpen() ? 'Close form' : '+ Add note' }}
+        </button>
+      </div>
+
+      @if (formOpen()) {
+        <app-note-form (publish)="onPublish($event)" (dismiss)="formOpen.set(false)" />
+      }
+
+      <div class="list" role="list">
+        @if (shown().length === 0) {
+          <div class="empty" role="listitem">
+            @if (level() === 'today' && !query().trim()) {
+              Nothing dated today yet. Notes you add are dated today and appear here, critical first.
+            } @else {
+              No notes match. Clear the search or pick another level.
+            }
+          </div>
+        } @else if (sort() === 'newest') {
+          @for (note of newest(); track note) {
+            <app-note-card
+              [note]="note"
+              [rank]="rankOf(note)"
+              [isToday]="note.date === today()"
+              [mine]="notes.isMine(note)"
+              (remove)="notes.remove($event)"
+            />
+          }
+        } @else {
+          @for (group of groups(); track group.level) {
+            <div class="group" role="presentation">
+              {{ group.level }}<span>{{ group.notes.length }} {{ group.notes.length === 1 ? 'note' : 'notes' }}</span>
+            </div>
+            @for (note of group.notes; track note) {
+              <app-note-card
+                [note]="note"
+                [rank]="rankOf(note)"
+                [isToday]="note.date === today()"
+                [mine]="notes.isMine(note)"
+                (remove)="notes.remove($event)"
+              />
+            }
+          }
+        }
+      </div>
+
+      <p class="foot">
+        Starter notes were gathered on 10 November 2026 from Malwarebytes, TuxCare, Rescana, CSA Singapore, Helix
+        Threat Watch and The Cryptonomist. Each note links to its report; confirm versions there before acting. Notes
+        you add stay in this browser.
+      </p>
+    </div>
+  </main>
+</div>
