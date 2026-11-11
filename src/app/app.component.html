@@ -55,9 +55,9 @@
           [value]="query()"
           (input)="query.set($any($event.target).value)"
         />
-        <button class="btn" type="button" [attr.aria-expanded]="formOpen()" (click)="formOpen.set(!formOpen())">
+     <!-- <button class="btn" type="button" [attr.aria-expanded]="formOpen()" (click)="formOpen.set(!formOpen())">
           {{ formOpen() ? 'Close form' : '+ Add note' }}
-        </button>
+        </button> -->
       </div>
 
       @if (formOpen()) {
