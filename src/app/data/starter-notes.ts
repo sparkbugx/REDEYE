@@ -1,7 +1,27 @@
 import { Note } from '../models/note';
 
-/** Starter notes gathered on 2026-11-10. Each one links to the report it came from. */
+/** Starter notes gathered on 2026-11-11. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-qpc3-24mv-6qrp", source:"npm", pkg:"xsdsh-purge-next, raiden-baileys, @lekzsync/baileys and 1 more", sev:"critical", score:"", date:"2026-11-11",
+   title:"4 npm packages flagged as malware on November 11: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 4 npm packages as malware (CWE-506) on November 11: xsdsh-purge-next, raiden-baileys, @lekzsync/baileys, @zhengliyoux/baileys. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
+  {id:"CVE-2026-126187", source:"npm", pkg:"react-server-dom-parcel, react-server-dom-turbopack, react-server-dom-webpack", sev:"critical", score:"9.5", date:"2026-11-10",
+   title:"React: Unauthenticated Remote Code Execution in React Server Components",
+   note:"Crafted payloads targeting frameworks supporting React Server Components can lead to remote code execution. This only affects extremely rare cases where responses transport multiple typed arrays and an attacker-controlled value. GitHub rates it critical (CVSS 9.5).",
+   fix:"Upgrade to react-server-dom-parcel 19.0.9, react-server-dom-parcel 19.1.10, react-server-dom-parcel 19.2.9 and react-server-dom-parcel 19.3.1 or later.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories/GHSA-xqc2-xf4c-x3h3"},
+  {id:"GHSA-cm5x-2764-c8p9", source:"npm", pkg:"chalks-log, @solana-trade/core, prettlog and 20 more", sev:"critical", score:"", date:"2026-11-10",
+   title:"23 npm packages flagged as malware on November 10: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 23 npm packages as malware (CWE-506) on November 10: chalks-log, @solana-trade/core, prettlog, termchalk, kbmathlessons, yummy-bolts, @fadelsm/baileys, @fadelsm/libsignal-node, pt-logger-telemetry-eax0x1, rex-react-diag-tools-v1, nj-logger, baidu-ti, @apexacc/cli, @mobile-platform/magnetic-components, hissakdx-wix-ssr-callback-canary, selectlist-polyfill-lite, read-react-app-in, read-react-app-test, css-import-order, read-react-app-out, modules-newline, solvit-cli, @rclaude/win32-x64. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
+  {id:"CVE-2026-120792", source:"npm", pkg:"@microsoft/aspire-cli, @microsoft/aspire-cli-linux-x64,…", sev:"high", score:"7.3", date:"2026-11-10",
+   title:"Microsoft Security Advisory CVE-2026-120792 - Aspire Information Disclosure Vulnerability",
+   note:"Microsoft is releasing this security advisory to provide information about a vulnerability in the Aspire CLI. This advisory provides guidance on updating affected applications and components. GitHub rates it high (CVSS 7.3). 1 more advisory for @microsoft/aspire-cli came out the same day, including CVE-2026-120778 (high).",
+   fix:"Upgrade to @microsoft/aspire-cli 13.6.5, @microsoft/aspire-cli-linux-x64 13.6.5, @microsoft/aspire-cli-linux-arm64 13.6.5 and @microsoft/aspire-cli-linux-musl-x64 13.6.5 or later.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories/GHSA-q6jf-24jf-m3cg"},
   {id:"CVE-2026-125120", source:"npm", pkg:"mongoose", sev:"critical", score:"9.8", date:"2026-11-10",
    title:"Mongoose: sanitizeFilter not applied on countDocuments",
    note:"sanitizeFilter is Mongoose's mechanism for protecting against query selector injection attacks. In older versions of Mongoose, sanitizeFilter was not applied for countDocuments() queries. GitHub rates it critical (CVSS 9.8). 4 more advisories for mongoose came out the same day, including CVE-2026-125117 (high), CVE-2026-125119 (high).",
