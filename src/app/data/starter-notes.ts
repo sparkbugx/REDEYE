@@ -1,7 +1,22 @@
 import { Note } from '../models/note';
 
-/** Starter notes gathered on 2026-11-11. Each one links to the report it came from. */
+/** Starter notes gathered on 2026-11-12. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-j3hx-5mxx-43qh", source:"npm", pkg:"pdf-html5-page-flip, @ruthless-imperium/baileys, superlib_ex3 and 3 more", sev:"critical", score:"", date:"2026-11-12",
+   title:"6 npm packages flagged as malware on November 12: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 6 npm packages as malware (CWE-506) on November 12: pdf-html5-page-flip, @ruthless-imperium/baileys, superlib_ex3, @rfewqa-fes/mnm-doc-mcp, carboniteapp, @ndikagantengg/baileys. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
+  {id:"CVE-2026-126885", source:"Google", pkg:"Chrome (ServiceWorker)", sev:"critical", score:"", date:"2026-11-11",
+   title:"Use after free in Chrome's ServiceWorker",
+   note:"Google's stable channel update of November 11 has 83 security fixes; the ones with CVE numbers are rated 5 critical and 78 high. CVE-2026-126885 is rated critical by Google. Also fixed: CVE-2026-126895 (use after free in CSS), CVE-2026-126879 (use after free in Layout), CVE-2026-126846 (use after free in Skia), CVE-2026-126911 (use after free in Accessibility), CVE-2026-126864 (use after free in V8), and 77 more.",
+   fix:"Chrome 157.0.8103.78/.79 or later on desktop. Restart the browser to finish the update.",
+   via:"Chrome Releases", link:"https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop_01744469280.html"},
+  {id:"GHSA-53gf-4wh9-g7vw", source:"npm", pkg:"teahy-znrpz-util, tailwindcss-hook-forms, strutil-helpers-core and 33 more", sev:"critical", score:"", date:"2026-11-11",
+   title:"36 npm packages flagged as malware on November 11: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 36 npm packages as malware (CWE-506) on November 11: teahy-znrpz-util, tailwindcss-hook-forms, strutil-helpers-core, mock-data-sdk, fcefi-wdojs-util, netspeedutil, selparsecss-selector, gloglet, chai-as-spy, gloggo, file-type-detector, verboset, reactlogo-load, aurelia-type, helmify, express-helmet, shraps, ioredis-xyz, redis-type-xyz, oracle-redis, ioredis-om-typed, flowbits, textmark-engine, pathbits, jsonrail, csvbits, taskpace, cronbits, @tomhundley/prismdb, @tomhundley/grafene, and 6 more. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
   {id:"GHSA-qpc3-24mv-6qrp", source:"npm", pkg:"xsdsh-purge-next, raiden-baileys, @lekzsync/baileys and 1 more", sev:"critical", score:"", date:"2026-11-11",
    title:"4 npm packages flagged as malware on November 11: treat any install as a full compromise",
    note:"GitHub's advisory database flagged 4 npm packages as malware (CWE-506) on November 11: xsdsh-purge-next, raiden-baileys, @lekzsync/baileys, @zhengliyoux/baileys. Any machine that installed or ran one of them should be considered under outside control.",
