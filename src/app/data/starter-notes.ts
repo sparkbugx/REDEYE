@@ -2,6 +2,21 @@ import { Note } from '../models/note';
 
 /** Starter notes gathered on 2026-11-12. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"CVE-2026-98959", source:"Ubuntu", pkg:"linux (HWE)", sev:"critical", score:"9.8", date:"2026-11-12",
+   title:"Linux kernel (HWE): 379 CVEs fixed, the most serious rated critical",
+   note:"Several security issues were discovered in the Linux kernel. An attacker could possibly use these to compromise the system. USN-9018-2 covers 379 CVEs; the most serious rated one is CVE-2026-98959 (Ubuntu priority medium, CVSS 9.8). Also rated high or critical: CVE-2026-99079, CVE-2026-74568, CVE-2026-99999, CVE-2026-98805, CVE-2026-98725.",
+   fix:"Fixed in linux-hwe-7.0 7.0.0-43.43~24.04.1 (24.04). After a standard system update you need to reboot your computer to make all the necessary changes.",
+   via:"Ubuntu Security Notices", link:"https://ubuntu.com/security/notices/USN-9018-2"},
+  {id:"GHSA-v5ww-6933-6prc", source:"npm", pkg:"base65-15x, base65-33x, base65-77x and 32 more", sev:"critical", score:"", date:"2026-11-12",
+   title:"35 npm packages flagged as malware on November 12: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 35 npm packages as malware (CWE-506) on November 12: base65-15x, base65-33x, base65-77x, @brunosps00/dev-workflow, future-scripts, @csp-frontend/auth, @csp-frontend/dashboard, @budetzz/eslint-config, budetzz, @budetzz/libsignal-node, @budetzz/baileys, showdownxss, @theguyswithaball/scrambler, @theguyswithaball/color-utils, decoder-params-sha256, tgnotify-bite, electfile, royal-rusd, uniswa-v2-sdk-holesky, soid-wallet, cosmjs-types-sovid, ganach, npm-builderio-qwik-poc, solidty, stelar-sdk, tailwind-lineclamp, @go-gost/mcp-darwin-x64, @codentra/postcss-kinetix, tailwind-motion-css, tailwindcss-form-ui, and 5 more. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
+  {id:"CVE-2026-84243", source:"Ubuntu", pkg:"GNU C Library", sev:"high", score:"7.0", date:"2026-11-12",
+   title:"GNU C Library: 7 CVEs fixed, the most serious rated high",
+   note:"It was discovered that the GNU C Library incorrectly handled the ccs= option in the fopen function. An attacker could possibly use this issue to cause GNU C Library to crash or execute arbitrary code. It was discovered that the GNU C Library incorrectly handled long domain names in DNS search lists. USN-9065-1 covers 7 CVEs; the most serious rated one is CVE-2026-84243 (Ubuntu priority medium, CVSS 7.0).",
+   fix:"Fixed in glibc 2.35-0ubuntu3.18 (22.04), glibc 2.39-0ubuntu8.12 (24.04), glibc 2.43-2ubuntu2.7 (26.04), glibc 2.44-1ubuntu2.1 (26.10). In general, a standard system update will make all the necessary changes.",
+   via:"Ubuntu Security Notices", link:"https://ubuntu.com/security/notices/USN-9065-1"},
   {id:"GHSA-j3hx-5mxx-43qh", source:"npm", pkg:"pdf-html5-page-flip, @ruthless-imperium/baileys, superlib_ex3 and 3 more", sev:"critical", score:"", date:"2026-11-12",
    title:"6 npm packages flagged as malware on November 12: treat any install as a full compromise",
    note:"GitHub's advisory database flagged 6 npm packages as malware (CWE-506) on November 12: pdf-html5-page-flip, @ruthless-imperium/baileys, superlib_ex3, @rfewqa-fes/mnm-doc-mcp, carboniteapp, @ndikagantengg/baileys. Any machine that installed or ran one of them should be considered under outside control.",
