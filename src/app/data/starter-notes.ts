@@ -1,7 +1,22 @@
 import { Note } from '../models/note';
 
-/** Starter notes gathered on 2026-11-13. Each one links to the report it came from. */
+/** Starter notes gathered on 2026-11-14. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-7jf6-qwv2-qppp", source:"npm", pkg:"@sfunction/dsh-screenshot", sev:"critical", score:"", date:"2026-11-14",
+   title:"Malicious package @sfunction/dsh-screenshot: treat any install as a full compromise",
+   note:"GitHub's advisory database flags this package as malware (CWE-506). Any machine that installed or ran it should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories/GHSA-7jf6-qwv2-qppp"},
+  {id:"GHSA-vfc7-g3hx-84wp", source:"npm", pkg:"@zread/cli-win32-arm64, @zread/cli-win32-x64, @zread/cli-linux-x64 and 690 more", sev:"critical", score:"", date:"2026-11-13",
+   title:"693 npm packages flagged as malware on November 13: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 693 npm packages as malware (CWE-506) on November 13: @zread/cli-win32-arm64, @zread/cli-win32-x64, @zread/cli-linux-x64, @zread/cli-linux-arm64, @zread/cli-darwin-x64, @zread/cli-darwin-arm64, zread_cli, @jelou/cli-win32-x64, rush-mfa, dowload_ebok_aws_lambda_in_action_by_danilo_poccia_o3xgh, dowload_ebok_to_kill_and_kill_again_by_john_coston_id159, dowload_ebok_honey_so_sweet_vol_5_by_amu_meguro_6vbdo, dowload_ebok_ecchi_gallery_by_takumi_kobayashi_c8fuf, dowload_ebok_puppy_love_by_rachel_renee_russell_7ae7c, dowload_ebok_kosten_und_leistungsrechnung_fur_dummies_by_michael_griga_b29bg, dowload_ebok_dorothy_debe_morir_by_danielle_paige_4802q, dowload_ebok_le_livre_du_hygge_by_meik_wiking_8ia8u, dowload_ebok_tiques_et_maladies_a_tiques_by_karen_d_mccoy_nathalie_boulanger_191kq, dowload_ebok_a_sally_lockhart_mystery_1_the_ruby_in_the_smoke_by_philip_pullman_mb9cv, dowload_ebok_dunenfluch_by_sven_koch_66l2o, dowload_ebok_priestdaddy_by_patricia_lockwood_cdh21, dowload_ebok_caveman_by_jo_raven_krxnj, dowload_ebok_trummerkind_by_mechtild_borrmann_moqf9, dowload_ebok_die_pantelides_dynastie_3_teilige_serie_by_maya_blake_glcqq, dowload_ebok_the_way_of_the_superior_man_by_david_deida_df8yi, dowload_ebok_il_libro_dei_medium_by_allan_kardec_es9tx, dowload_ebok_marion_duval_integrale_tome_01_by_yvan_pommaux_nicole_pommaux_msvgc, dowload_ebok_weber_s_barbecue_bible_by_jamie_purviance_tggf4, the_shaolin_workout_by_shi_yan_ming_r43vx, dowload_ebok_les_heritiers_by_pierre_bourdieu_jean_claude_passeron_7aha3, and 663 more. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
+  {id:"CVE-2026-62297", source:"npm", pkg:"ag-psd < 31.0.0", sev:"high", score:"7.5", date:"2026-11-13",
+   title:"ag-psd can exhaust memory when parsing crafted PSD dimensions",
+   note:"readPsd() commits the image/layer buffers from the declared header geometry (width x height x channels x depth, and per-layer rectangles) before validating those values against the actual data. A tiny crafted PSD declaring huge geometry forces a multi-gigabyte allocation. GitHub rates it high (CVSS 7.5).",
+   fix:"Upgrade to ag-psd 31.0.0 or later.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories/GHSA-qfx6-q44v-9qqw"},
   {id:"CVE-2026-98365", source:"Ubuntu", pkg:"linux (NVIDIA Tegra)", sev:"critical", score:"9.8", date:"2026-11-13",
    title:"Linux kernel (NVIDIA Tegra): 2205 CVEs fixed, the most serious rated critical",
    note:"It was discovered that some AMD processors did not properly perform Reverse Map Table (RMP) checks when the IOMMU accessed certain host buffers. A local attacker with hypervisor access could possibly use this to trigger an out-of-bounds condition and compromise the integrity of SEV-SNP guest memory. Several security issues were discovered in the Linux kernel. USN-9091-1 covers 2205 CVEs; the most serious rated one is CVE-2026-98365 (Ubuntu priority critical, CVSS 9.8). Also rated high or critical: CVE-2026-100075, CVE-2026-98432, CVE-2026-98464, CVE-2026-99999, CVE-2026-97957.",
