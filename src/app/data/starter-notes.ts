@@ -1,7 +1,17 @@
 import { Note } from '../models/note';
 
-/** Starter notes gathered on 2026-11-14. Each one links to the report it came from. */
+/** Starter notes gathered on 2026-11-15. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-95pv-hv63-58m8", source:"npm", pkg:"@theholocron/holocron-plugin-discord", sev:"critical", score:"", date:"2026-11-15",
+   title:"Malicious package @theholocron/holocron-plugin-discord: treat any install as a full compromise",
+   note:"GitHub's advisory database flags this package as malware (CWE-506). Any machine that installed or ran it should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories/GHSA-95pv-hv63-58m8"},
+  {id:"GHSA-2p2h-g9qq-v2wx", source:"npm", pkg:"node-zserial, @crvouga/mockingbird-service-microsoft, testpackage83", sev:"critical", score:"", date:"2026-11-14",
+   title:"3 npm packages flagged as malware on November 14: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 3 npm packages as malware (CWE-506) on November 14: node-zserial, @crvouga/mockingbird-service-microsoft, testpackage83. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
   {id:"GHSA-7jf6-qwv2-qppp", source:"npm", pkg:"@sfunction/dsh-screenshot", sev:"critical", score:"", date:"2026-11-14",
    title:"Malicious package @sfunction/dsh-screenshot: treat any install as a full compromise",
    note:"GitHub's advisory database flags this package as malware (CWE-506). Any machine that installed or ran it should be considered under outside control.",
