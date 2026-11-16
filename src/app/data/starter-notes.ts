@@ -1,7 +1,17 @@
 import { Note } from '../models/note';
 
-/** Starter notes gathered on 2026-11-15. Each one links to the report it came from. */
+/** Starter notes gathered on 2026-11-16. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-72cg-f236-g9g4", source:"npm", pkg:"baileys-clean, tg-msg-effect, @xzvbailss/baileys and 2 more", sev:"critical", score:"", date:"2026-11-16",
+   title:"5 npm packages flagged as malware on November 16: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 5 npm packages as malware (CWE-506) on November 16: baileys-clean, tg-msg-effect, @xzvbailss/baileys, hstdemotests, hstdemotest. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
+  {id:"GHSA-h6jf-g8cj-x4v3", source:"npm", pkg:"@univerjs-pro/sheets-pivot-chart, pmhq-dist-win-x64", sev:"critical", score:"", date:"2026-11-15",
+   title:"2 npm packages flagged as malware on November 15: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 2 npm packages as malware (CWE-506) on November 15: @univerjs-pro/sheets-pivot-chart, pmhq-dist-win-x64. Any machine that installed or ran one of them should be considered under outside control.",
+   fix:"Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
   {id:"GHSA-95pv-hv63-58m8", source:"npm", pkg:"@theholocron/holocron-plugin-discord", sev:"critical", score:"", date:"2026-11-15",
    title:"Malicious package @theholocron/holocron-plugin-discord: treat any install as a full compromise",
    note:"GitHub's advisory database flags this package as malware (CWE-506). Any machine that installed or ran it should be considered under outside control.",
