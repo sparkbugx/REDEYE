@@ -1,0 +1,11 @@
+services:
+  web:
+    image: ghcr.io/sparkbugx/redeye:latest
+    pull_policy: always
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.redeye.rule=Host(`redeye.nodox.cloud`)
+      - traefik.http.routers.redeye.entrypoints=websecure
+      - traefik.http.routers.redeye.tls.certresolver=letsencrypt
+      - traefik.http.services.redeye.loadbalancer.server.port=80
