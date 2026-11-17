@@ -5,6 +5,11 @@ export const GATHERED_ON = '2026-11-17';
 
 /** Starter notes gathered on 2026-11-17. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-q543-mmv3-jp95", source:"npm", pkg:"afreumtoolkits, tsc-wireshift, tsc-p2pnet and 10 more", sev:"critical", score:"", date:"2026-11-17",
+   title:"13 npm packages flagged as malware on November 17: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 13 npm packages as malware (CWE-506) on November 17: afreumtoolkits, tsc-wireshift, tsc-p2pnet, @suruj/tsc-p2p, zk-scandog, tsc-polymorph, tsc-lotl, tsc-ai, tsc-mesh, tscscan, @suruj/scan-dog, edulabs, whs4_eud. Every version of each package is flagged. Any machine that installed or ran a flagged version should be considered under outside control.",
+   fix:"Remove packages flagged for every version and block them in lockfiles and CI. If any flagged version was installed or run, rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware%20ecosystem%3Anpm%20created%3A2026-11-17T00%3A00%3A00-06%3A00..2026-11-17T23%3A59%3A59-06%3A00"},
   {id:"GHSA-764r-557p-9hgx", source:"npm", pkg:"wallet-modal-223, sw-pluginer, tailwindcss-animatemotion and 3 more", sev:"critical", score:"", date:"2026-11-17",
    title:"6 npm packages flagged as malware on November 17: treat any install as a full compromise",
    note:"GitHub's advisory database flagged 6 npm packages as malware (CWE-506) on November 17: wallet-modal-223, sw-pluginer, tailwindcss-animatemotion, tailwindcss-motionanimate, framer-motionanimate, @doublekk61_pro/postcss-motion-animation. Flagged versions: wallet-modal-223 (every version); sw-pluginer (every version); tailwindcss-animatemotion (every version); tailwindcss-motionanimate (every version); framer-motionanimate (every version); @doublekk61_pro/postcss-motion-animation (every version). Packages that are legitimate projects can be flagged for one version only, so check the version before removing anything. Any machine that installed or ran a flagged version should be considered under outside control.",
