@@ -736,11 +736,50 @@ async function collectNpmReviewed(run) {
   }
 }
 
+/**
+ * Affected versions per npm package, merged across advisories. A package flagged
+ * for every version is marked `every`; otherwise its exact versions or ranges are kept.
+ */
+function flagsFor(advisories) {
+  const merged = new Map();
+  for (const a of advisories) {
+    for (const v of a.vulnerabilities ?? []) {
+      if (v.package?.ecosystem !== 'npm' || !v.package.name) continue;
+      const entry = merged.get(v.package.name) ?? { every: false, ranges: new Set() };
+      const range = String(v.vulnerable_version_range ?? '').trim();
+      const exact = range.match(/^=\s*(\S+)$/);
+      if (exact) entry.ranges.add(exact[1]);
+      else if (/^>=?\s*0$/.test(range) || range === '') entry.every = true;
+      else if (range) entry.ranges.add(range);
+      merged.set(v.package.name, entry);
+    }
+  }
+  return merged;
+}
+
+/** Plain-language list such as "vamp-mcp 0.2.3, 0.2.4; base64-x58 (every version)". */
+function describeFlags(merged) {
+  return [...merged].map(([name, e]) => {
+    if (e.every || !e.ranges.size) return `${name} (every version)`;
+    return `${name} ${[...e.ranges].join(', ')}`;
+  }).join('; ');
+}
+
+/** Fix text that matches what the advisories flag: pin or upgrade off specific versions, remove packages flagged for every version. */
+function malwareFix(merged) {
+  const every = [...merged].filter(([, e]) => e.every || !e.ranges.size).map(([name]) => name);
+  const specific = [...merged].length - every.length;
+  const parts = [];
+  if (specific) parts.push('Stop using the flagged versions listed above: move to a clean version or remove the package, and check the advisory page for the safe version.');
+  if (every.length) parts.push(`Remove ${every.length === 1 ? 'the package' : 'packages flagged for every version'} and block them in lockfiles and CI.`);
+  parts.push('If any flagged version was installed or run, rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.');
+  return parts.join(' ');
+}
+
 async function collectNpmMalware(run) {
   const flagged = (await githubAdvisories(run, 'malware'))
     .map((a) => ({ ...a, packages: npmPackages(a) }))
     .filter((a) => a.packages.length);
-  const fix = 'Remove the package and block it in lockfiles and CI. Rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.';
   const listLink = 'https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm';
 
   const groups = new Map();
@@ -764,6 +803,9 @@ async function collectNpmMalware(run) {
     const names = unique(fresh.flatMap((a) => a.packages));
     const shown = names.slice(0, LIMITS.malwareNamesInNote);
     const single = names.length === 1;
+    const merged = flagsFor(fresh);
+    const flagged = describeFlags(merged);
+    const fix = malwareFix(merged);
     run.add({
       id: top.ghsa_id,
       source: 'npm',
@@ -775,8 +817,8 @@ async function collectNpmMalware(run) {
         ? `Malicious package ${names[0]}: treat any install as a full compromise`
         : `${names.length} npm packages flagged as malware on ${longDate(top.date)}: treat any install as a full compromise`,
       note: single
-        ? `GitHub's advisory database flags this package as malware (CWE-506). Any machine that installed or ran it should be considered under outside control.`
-        : `GitHub's advisory database flagged ${names.length} npm packages as malware (CWE-506) on ${longDate(top.date)}: ${shown.join(', ')}${names.length > shown.length ? `, and ${names.length - shown.length} more` : ''}. Any machine that installed or ran one of them should be considered under outside control.`,
+        ? `GitHub's advisory database flags ${flagged} as malware (CWE-506). Any machine that installed or ran a flagged version should be considered under outside control.`
+        : `GitHub's advisory database flagged ${names.length} npm packages as malware (CWE-506) on ${longDate(top.date)}: ${shown.join(', ')}${names.length > shown.length ? `, and ${names.length - shown.length} more` : ''}. Flagged versions: ${flagged}. Packages that are legitimate projects can be flagged for one version only, so check the version before removing anything. Any machine that installed or ran a flagged version should be considered under outside control.`,
       fix,
       via: 'GitHub Advisory Database',
       link: single ? top.html_url : listLink,
@@ -819,10 +861,13 @@ async function collectKevAdditions(run) {
 function save(run) {
   const { file, opts } = run;
   const header = /gathered on \d{4}-\d{2}-\d{2}/;
+  const gatheredConst = /export const GATHERED_ON = '\d{4}-\d{2}-\d{2}'/;
   const order = (a, b) => b.date.localeCompare(a.date) || SEV_RANK[a.sev] - SEV_RANK[b.sev];
   run.added.sort(order);
 
-  const before = file.text.slice(0, file.insertAt).replace(header, `gathered on ${run.today}`);
+  const before = file.text.slice(0, file.insertAt)
+    .replace(header, `gathered on ${run.today}`)
+    .replace(gatheredConst, `export const GATHERED_ON = '${run.today}'`);
   const after = file.text.slice(file.insertAt);
   const block = run.added.length ? `\n${run.added.map(formatNote).join('\n')}` : '';
   const next = before + block + after;

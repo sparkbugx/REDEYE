@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { CoverComponent } from './components/cover.component';
 import { NoteCardComponent } from './components/note-card.component';
 import { NoteFormComponent } from './components/note-form.component';
+import { GATHERED_ON } from './data/starter-notes';
 import { LEVELS, LevelFilter, Note, Severity, SortMode } from './models/note';
 import { CurrentDateService } from './services/current-date.service';
 import { NotesService } from './services/notes.service';
@@ -28,6 +29,11 @@ export class AppComponent {
   private readonly dates = inject(CurrentDateService);
 
   protected readonly today = this.dates.today;
+  protected readonly gathered = new Date(`${GATHERED_ON}T12:00:00`).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
   protected readonly level = signal<LevelFilter>('all');
   protected readonly sort = signal<SortMode>('priority');
   protected readonly query = signal('');
