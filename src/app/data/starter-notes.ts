@@ -1,10 +1,20 @@
 import { Note } from '../models/note';
 
 /** Date the starter notes were last gathered. The page footer reads this. */
-export const GATHERED_ON = '2026-11-21';
+export const GATHERED_ON = '2026-11-22';
 
-/** Starter notes gathered on 2026-11-21. Each one links to the report it came from. */
+/** Starter notes gathered on 2026-11-22. Each one links to the report it came from. */
 export const STARTER_NOTES: Note[] = [
+  {id:"GHSA-6crj-9fxx-v653", source:"npm", pkg:"@leadstack/crm-connect", sev:"critical", score:"", date:"2026-11-22",
+   title:"Malicious package @leadstack/crm-connect: treat any install as a full compromise",
+   note:"GitHub's advisory database flags @leadstack/crm-connect 1.0.15, 1.0.19, 1.0.29, 1.0.18, 1.0.21, 1.0.20, 1.0.30 as malware (CWE-506). Any machine that installed or ran a flagged version should be considered under outside control.",
+   fix:"Stop using the flagged versions listed above: move to a clean version or remove the package, and check the advisory page for the safe version. If any flagged version was installed or run, rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories/GHSA-6crj-9fxx-v653"},
+  {id:"GHSA-p7r2-5ppv-hr6g", source:"npm", pkg:"@c1-ease/core, @c1-ease/commerce, @c1-ease/bank and 4 more", sev:"critical", score:"", date:"2026-11-21",
+   title:"7 npm packages flagged as malware on November 21: treat any install as a full compromise",
+   note:"GitHub's advisory database flagged 7 npm packages as malware (CWE-506) on November 21: @c1-ease/core, @c1-ease/commerce, @c1-ease/bank, autoloan, @c1-ease/autoloan, @c1-ease/card, @wppconnect-team/wppconnect. Flagged versions: @c1-ease/core 3.0.0, 2.0.0, 1.0.0, 1.0.1, 99.0.1, 2.0.1, 1.1.0; @c1-ease/commerce 2.0.1, 2.0.0, 3.0.0, 1.1.0, 1.0.1; @c1-ease/bank 3.0.0, 1.0.0, 0.0.1, 2.0.0, 2.0.1, 1.0.1, 99.0.1; autoloan 3.0.0, 0.0.1, 2.0.0, 1.1.0; @c1-ease/autoloan 1.1.0, 1.0.1, 1.0.0, 3.0.0, 2.0.0, 2.0.1, 99.0.1; @c1-ease/card 0.0.1, 99.0.1, 1.0.1, 1.1.0, 1.0.0, 2.0.1; @wppconnect-team/wppconnect 2.4.1. Packages that are legitimate projects can be flagged for one version only, so check the version before removing anything. Any machine that installed or ran a flagged version should be considered under outside control.",
+   fix:"Stop using the flagged versions listed above: move to a clean version or remove the package, and check the advisory page for the safe version. If any flagged version was installed or run, rotate every secret that was on the machine from a clean computer, then rebuild or reimage it. Uninstalling alone is not enough.",
+   via:"GitHub Advisory Database", link:"https://github.com/advisories?query=type%3Amalware+ecosystem%3Anpm"},
   {id:"CVE-2026-89972", source:"Ubuntu", pkg:"linux", sev:"critical", score:"9.8", date:"2026-11-20",
    title:"Linux kernel: 327 CVEs fixed, the most serious rated critical",
    note:"Several security issues were discovered in the Linux kernel. An attacker could possibly use these to compromise the system. USN-9167-2 covers 327 CVEs; the most serious rated one is CVE-2026-89972 (Ubuntu priority low, CVSS 9.8). Also rated high or critical: CVE-2026-89633, CVE-2026-74406, CVE-2026-99154, CVE-2026-98490, CVE-2026-89702.",
